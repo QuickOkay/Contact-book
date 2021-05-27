@@ -49,17 +49,26 @@ func RemoveContact(c *fiber.Ctx) error {
 }
 
 func EditContact(c *fiber.Ctx) error {
-        contact := struct {
-                Oldtel string `json:"oldtel"`
-                Name string `json:"name"`
-                Tel string `json:"tel"`
-        }{} 
-        if err := c.BodyParser(&contact); if err != nil {
-                return err
-        } 
+	contact := struct {
+		Oldtel string `json:"oldtel"`
+		Name   string `json:"name"`
+		Tel    string `json:"tel"`
+	}{}
+	if err := c.BodyParser(&contact); err != nil {
+		return err
+	}
 
-        database.DBConn.Model(&models.Contact{}).Where("tel = ?", contact.Oldtel).Update(contact.Name, contact.Tel)
-        return utils.SendJSON(c, Status{Code: 200})
+	if contact.Oldtel == "" || contact.Name == "" || contact.Tel == "" {
+		return utils.SendJSON(c, Status{Code: 400})
+	}
+
+	res := database.DBConn.First(&models.Contact{}, "tel = ?", contact.Tel)
+	if contact.Oldtel != contact.Tel && res.RowsAffected != 0 {
+		return utils.SendJSON(c, Status{Code: 208})
+	}
+
+	database.DBConn.Model(&models.Contact{}).Where("tel = ?", contact.Oldtel).Updates(models.Contact{Name: contact.Name, Tel: contact.Tel})
+	return utils.SendJSON(c, Status{Code: 200})
 }
 
 func GetContacts(c *fiber.Ctx) error {
