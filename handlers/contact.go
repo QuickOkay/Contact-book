@@ -13,18 +13,18 @@ type Status struct {
 }
 
 func AddContact(c *fiber.Ctx) error {
-	contact := new(models.Contact)
+	contact := models.Contact{}
 	if err := c.BodyParser(&contact); err != nil {
 		return err
 	}
 
 	if contact.Name == "" || contact.Tel == "" {
-		utils.SendJSON(c, Status{Code: 400})
+		return utils.SendJSON(c, Status{Code: 400})
 	}
 
-	res := database.DBConn.First(&contact, "tel = ?", contact)
+	res := database.DBConn.First(&models.Contact{}, "tel = ?", contact.Tel)
 	if res.RowsAffected != 0 {
-		utils.SendJSON(c, Status{Code: 208})
+		return utils.SendJSON(c, Status{Code: 208})
 	}
 
 	database.DBConn.Create(&contact)
@@ -32,7 +32,7 @@ func AddContact(c *fiber.Ctx) error {
 }
 
 func RemoveContact(c *fiber.Ctx) error {
-	contact := new(models.Contact)
+	contact := models.Contact{}
 	if err := c.BodyParser(&contact); err != nil {
 		return err
 	}
