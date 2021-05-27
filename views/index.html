@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Book</title>
+</head>
+<body>
+    <form method="GET" action="api/get-contacts">
+        <h2>Get contacts</h2>
+        <button type="submit">Get</button>
+    </form>
+
+    <form method="POST" action="api/add-contact">
+        <h2>Add contact</h2>
+        <input type="text" placeholder="Name" name="name" required>
+        <input type="tel" placeholder="Tel" name="tel" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <form method="UPDATE" action="api/edit-contact">
+        <h2>Edit contact</h2>
+        <input type="tel" placeholder="oldtel" required>
+        <input type="text" placeholder="name" required>
+        <input type="tel" placeholder="tel" required>
+        <button type="submit">Save</button>
+    </form>
+
+    <form method="POST" action="api/remove-contact">
+        <h2>Remove contact</h2>
+        <input type="tel" placeholder="Tel" name="tel" required>
+        <button type="submit">Remove</button>
+    </form>
+</body>
+</html>
