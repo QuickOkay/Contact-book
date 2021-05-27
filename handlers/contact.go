@@ -49,6 +49,15 @@ func RemoveContact(c *fiber.Ctx) error {
 }
 
 func EditContact(c *fiber.Ctx) error {
+        contact := struct {
+                Oldtel string `json:"oldtel"`
+                Name string `json:"name"`
+                Tel string `json:"tel"`
+        } 
+        if err := c.BodyParser(contact); if err! = nil {
+                return err
+        } 
+
 
 	return c.SendString("Edit")
 }
