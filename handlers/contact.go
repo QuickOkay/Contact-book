@@ -58,8 +58,8 @@ func EditContact(c *fiber.Ctx) error {
                 return err
         } 
 
-
-	return c.SendString("Edit")
+        database.DBConn.Model(&models.Contact{}).Where("tel = ?", contact.Oldtel).Update(contact.Name, contact.Tel)
+        return utils.SendJSON(c, Status{Code: 200})
 }
 
 func GetContacts(c *fiber.Ctx) error {
