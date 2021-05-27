@@ -14,7 +14,7 @@ type Status struct {
 
 func AddContact(c *fiber.Ctx) error {
 	contact := new(models.Contact)
-	if err := c.BodyParser(contact); err != nil {
+	if err := c.BodyParser(&contact); err != nil {
 		return err
 	}
 
@@ -33,7 +33,7 @@ func AddContact(c *fiber.Ctx) error {
 
 func RemoveContact(c *fiber.Ctx) error {
 	contact := new(models.Contact)
-	if err := c.BodyParser(contact); err != nil {
+	if err := c.BodyParser(&contact); err != nil {
 		return err
 	}
 
@@ -53,8 +53,8 @@ func EditContact(c *fiber.Ctx) error {
                 Oldtel string `json:"oldtel"`
                 Name string `json:"name"`
                 Tel string `json:"tel"`
-        } 
-        if err := c.BodyParser(contact); if err! = nil {
+        }{} 
+        if err := c.BodyParser(&contact); if err != nil {
                 return err
         } 
 
